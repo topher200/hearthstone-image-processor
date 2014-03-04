@@ -33,6 +33,13 @@
     (Imgproc/cvtColor image dest Imgproc/COLOR_BGR2GRAY)
     dest))
 
+(defn crop-image
+  [image]
+  (let [border-width 30]
+    (.submat image
+             border-width (- (.rows image) border-width)
+             border-width (- (.cols image) border-width))))
+
 (defn save-image
   [image path]
   (Highgui/imwrite path image))
@@ -94,14 +101,18 @@
   []
   (println "---start---")
   (clojure.lang.RT/loadLibrary Core/NATIVE_LIBRARY_NAME)
-  (let [board-image (gray-image (load-image "croc_board.png"))
-        croc-image (gray-image (load-image "croc_card.png"))
-        match-image (template-match board-image croc-image)
-        normalized (normalize match-image)
-        match-location (find-match-location normalized)
-        template-size (.size croc-image)
-        save-path (path-to-resource "match.png")]
-    (draw-rectangle board-image match-location template-size)
-    (save-image normalized save-path)))
+  (let [board-image-color (load-image "croc_board.png")
+        board-image (gray-image board-image-color)
+        card-image (gray-image (load-image "croc_card.png"))
+        card-image-cropped (crop-image card-image)
+        match-image (template-match board-image card-image-cropped)
+        normalized-image (normalize match-image)
+        match-location (find-match-location normalized-image)
+        template-size (.size card-image-cropped)
+        board-to-draw board-image-color
+        save-path (path-to-resource "match.png")
+        ]
+    (draw-rectangle board-to-draw match-location template-size)
+    (save-image board-to-draw save-path)))
 
 (main)
