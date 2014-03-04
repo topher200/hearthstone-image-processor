@@ -97,7 +97,7 @@
     (println "drawing from" match-location "to" rectangle-bound)
     (Core/rectangle image match-location rectangle-bound color)))
 
-(defn main
+(defn -main
   []
   (println "---start---")
   (clojure.lang.RT/loadLibrary Core/NATIVE_LIBRARY_NAME)
@@ -114,5 +114,4 @@
         ]
     (draw-rectangle board-to-draw match-location template-size)
     (save-image board-to-draw save-path)))
-
-(main)
+(-main)

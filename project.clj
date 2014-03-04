@@ -11,4 +11,5 @@
   :injections
   [(clojure.lang.RT/loadLibrary org.opencv.core.Core/NATIVE_LIBRARY_NAME)]
   :resource-paths ["resources"]
+  :main hearthstone-bot.core
   )
