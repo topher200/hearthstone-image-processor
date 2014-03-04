@@ -1,4 +1,5 @@
 (ns hearthstone-bot.core
+  (:use [clojure.tools.logging :only (debug info warn error)])
   (:import
    org.opencv.core.Core
    org.opencv.core.Mat
@@ -23,8 +24,8 @@
   [filename]
   (let [image (Highgui/imread (path-to-resource filename))]
     (if (.empty image)
-      (println "failed to load" filename image)
-      (println filename "loaded:" image))
+      (error "failed to load" filename image)
+      (info filename "loaded:" image))
     image))
 
 (defn gray-image
@@ -63,14 +64,14 @@
         ;; method Imgproc/TM_CCOEFF]
         ;; method Imgproc/TM_CCOEFF_NORMED]
     (Imgproc/matchTemplate image template dest method)
-    (println "match-image:" dest)
+    (info "match-image:" dest)
     dest))
 
 (defn normalize
   [image]
   (let [dest (create-empty-clone image)]
     (Core/normalize image dest 0 1 Core/NORM_MINMAX)
-    (println "normalized:" dest)
+    (info "normalized:" dest)
     dest))
 
 (defn find-match-location
@@ -78,9 +79,9 @@
   [image]
   (let [location (.maxLoc (Core/minMaxLoc image))]
   ;; (let [location (.minLoc (Core/minMaxLoc image))]
-    (println "match maxVal:" (.maxVal (Core/minMaxLoc image)))
-    (println "match minVal:" (.minVal (Core/minMaxLoc image)))
-    (println "match location:" location)
+    (info "match maxVal:" (.maxVal (Core/minMaxLoc image)))
+    (info "match minVal:" (.minVal (Core/minMaxLoc image)))
+    (info "match location:" location)
     location))
 
 (defn bounding-rectangle-opposite-vertex
@@ -94,12 +95,12 @@
         (bounding-rectangle-opposite-vertex match-location template-size)
         color (Scalar. 255 255 255)
         ]
-    (println "drawing from" match-location "to" rectangle-bound)
+    (info "drawing from" match-location "to" rectangle-bound)
     (Core/rectangle image match-location rectangle-bound color)))
 
 (defn -main
   []
-  (println "---start---")
+  (info "---start---")
   (clojure.lang.RT/loadLibrary Core/NATIVE_LIBRARY_NAME)
   (let [board-image-color (load-image "croc_board.png")
         board-image (gray-image board-image-color)
