@@ -1,5 +1,5 @@
 (ns hearthstone-bot.core
-  (:use [clojure.tools.logging :only (debug info warn error)])
+  (:use [clojure.tools.logging :only (debug info warn error spy)])
   (:import
    org.opencv.core.Core
    org.opencv.core.Mat
@@ -25,7 +25,7 @@
   (let [image (Highgui/imread (path-to-resource filename))]
     (if (.empty image)
       (error "failed to load" filename image)
-      (info filename "loaded:" image))
+      (debug filename "loaded:" image))
     image))
 
 (defn gray-image
@@ -64,14 +64,14 @@
         ;; method Imgproc/TM_CCOEFF]
         ;; method Imgproc/TM_CCOEFF_NORMED]
     (Imgproc/matchTemplate image template dest method)
-    (info "match-image:" dest)
+    (debug "match-image:" dest)
     dest))
 
 (defn normalize
   [image]
   (let [dest (create-empty-clone image)]
     (Core/normalize image dest 0 1 Core/NORM_MINMAX)
-    (info "normalized:" dest)
+    (debug "normalized:" dest)
     dest))
 
 (defn find-match-location
@@ -81,7 +81,7 @@
   ;; (let [location (.minLoc (Core/minMaxLoc image))]
     (info "match maxVal:" (.maxVal (Core/minMaxLoc image)))
     (info "match minVal:" (.minVal (Core/minMaxLoc image)))
-    (info "match location:" location)
+    (debug "match location:" location)
     location))
 
 (defn bounding-rectangle-opposite-vertex
@@ -95,24 +95,31 @@
         (bounding-rectangle-opposite-vertex match-location template-size)
         color (Scalar. 255 255 255)
         ]
-    (info "drawing from" match-location "to" rectangle-bound)
+    (debug "drawing from" match-location "to" rectangle-bound)
     (Core/rectangle image match-location rectangle-bound color)))
 
 (defn -main
   []
   (info "---start---")
   (clojure.lang.RT/loadLibrary Core/NATIVE_LIBRARY_NAME)
-  (let [board-image-color (load-image "croc_board.png")
+  (let [
+        ;; board-image-name "croc_board.png"
+        board-image-name "boar_hand.png"
+        card-image-name "boar_card.png"
+        ;; card-image-name "croc_card.png"
+        board-image-color (load-image board-image-name)
         board-image (gray-image board-image-color)
-        card-image (gray-image (load-image "croc_card.png"))
+        card-image (gray-image (load-image card-image-name))
         card-image-cropped (crop-image card-image)
         match-image (template-match board-image card-image-cropped)
         normalized-image (normalize match-image)
-        match-location (find-match-location normalized-image)
+        match-location (find-match-location match-image)
         template-size (.size card-image-cropped)
-        board-to-draw board-image-color
+        ;; board-to-draw board-image-color
+        board-to-draw board-image
         save-path (path-to-resource "match.png")
         ]
+    (info "checking for" card-image-name "on" board-image-name)
     (draw-rectangle board-to-draw match-location template-size)
     (save-image board-to-draw save-path)))
 (-main)
