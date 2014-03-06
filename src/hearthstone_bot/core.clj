@@ -1,4 +1,5 @@
 (ns hearthstone-bot.core
+  (:require [hearthstone-bot.file-system :as fs])
   (:use [clojure.tools.logging :only (debug info warn error spy)])
   (:import
    org.opencv.core.Core
@@ -8,21 +9,15 @@
    org.opencv.imgproc.Imgproc
    org.opencv.highgui.Highgui
    ))
-   
+
 (defn create-empty-clone
   "Creates an empty Mat the same size and type as the inputted one"
   [image]
  (Mat. (.rows image) (.cols image) (.type image)))
 
-(defn path-to-resource
-  [resource-filename]
-  ; HACK: .getPath returns a leading slash, which fails on Windows. Specifying
-  ; the path manually.
-   (clojure.string/join "" ["d:/dev/clojure/hearthstone-bot/resources/"
-                            resource-filename]))
 (defn load-image
   [filename]
-  (let [image (Highgui/imread (path-to-resource filename))]
+  (let [image (Highgui/imread filename)]
     (if (.empty image)
       (error "failed to load" filename image)
       (debug filename "loaded:" image))
@@ -103,23 +98,24 @@
   (info "---start---")
   (clojure.lang.RT/loadLibrary Core/NATIVE_LIBRARY_NAME)
   (let [
-        ;; board-image-name "croc_board.png"
-        board-image-name "boar_hand.png"
-        card-image-name "boar_card.png"
-        ;; card-image-name "croc_card.png"
-        board-image-color (load-image board-image-name)
-        board-image (gray-image board-image-color)
-        card-image (gray-image (load-image card-image-name))
-        card-image-cropped (crop-image card-image)
-        match-image (template-match board-image card-image-cropped)
-        normalized-image (normalize match-image)
-        match-location (find-match-location match-image)
-        template-size (.size card-image-cropped)
-        ;; board-to-draw board-image-color
-        board-to-draw board-image
-        save-path (path-to-resource "match.png")
+        ;; ;; board-image-name "croc_board.png"
+        ;; board-image-name "boar_hand.png"
+        ;; card-image-name "boar_card.png"
+        ;; ;; card-image-name "croc_card.png"
+        ;; board-image-color (load-image board-image-name)
+        ;; board-image (gray-image board-image-color)
+        ;; card-image (gray-image (load-image card-image-name))
+        ;; card-image-cropped (crop-image card-image)
+        ;; match-image (template-match board-image card-image-cropped)
+        ;; normalized-image (normalize match-image)
+        ;; match-location (find-match-location match-image)
+        ;; template-size (.size card-image-cropped)
+        ;; ;; board-to-draw board-image-color
+        ;; board-to-draw board-image
+        ;; save-path (path-to-resource "match.png")
         ]
-    (info "checking for" card-image-name "on" board-image-name)
-    (draw-rectangle board-to-draw match-location template-size)
-    (save-image board-to-draw save-path)))
+    (error (get-all-files fs/cards-directory))))
+    ;; (info "checking for" card-image-name "on" board-image-name)
+    ;; (draw-rectangle board-to-draw match-location template-size)
+    ;; (save-image board-to-draw save-path)))
 (-main)
