@@ -23,7 +23,7 @@
     (if (.empty image)
       (error "failed to load" filename image)
       (debug filename "loaded:" image))
-    image))
+    (gray-image image)))
 
 (defn gray-image
   [image]
