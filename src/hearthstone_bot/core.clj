@@ -5,16 +5,26 @@
    )
   (:use [clojure.tools.logging :only (debug info warn error spy)]))
 
-(defn find-and-draw-croc-match
-  []
-  (let [game-image (load-image (fs/path-to-resource "croc_board.png"))
-        card-image (crop-image (load-image (fs/path-to-resource "croc_card.png")))
-        save-path (fs/path-to-resource "res" "match.png")]
+(defn find-and-draw-match
+  [card-path]
+  (let [
+        game-image (load-image (fs/path-to-resource "croc_board.png"))
+        card-image (crop-image (load-image (.toString card-path)))
+        save-path (fs/path-to-resource "res" (.getName card-path))
+        ]
+    (info "running" (.getName card-path))
     (draw-rectangle
      game-image 
      (cv/find-match-location (cv/template-match game-image card-image))
      (.size card-image))
-    (cv/save-image game-image save-path)))
+    (cv/save-image game-image save-path)
+    (info "completed")))
+
+(def all-cards (fs/get-all-files fs/cards-directory))
+
+(defn find-and-draw-all-matches
+  []
+  (map find-and-draw-match all-cards))
 
 (defn -main
   []
@@ -40,5 +50,5 @@
     ;; (cv/draw-rectangle board-to-draw match-location template-size)
     (cv/save-image board-to-draw save-path)))
 
-(find-and-draw-croc-match)
+(find-and-draw-all-matches)
 ;; (-main)

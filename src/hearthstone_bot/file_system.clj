@@ -2,7 +2,7 @@
 
 (def resources-directory "d:/dev/clojure/hearthstone-bot/resources")
 (def cards-directory
-  (clojure.string/join "" [resources-directory, "card-images"]))
+  (clojure.string/join "/" [resources-directory, "some-card-images"]))
 
 (defn get-all-files
   [directory]

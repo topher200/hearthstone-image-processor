@@ -19,7 +19,7 @@
 
 (defn load-image
   [filename]
-  (let [image (Highgui/imread filename)]
+  (let [image (Highgui/imread (.toString filename))]
     (if (.empty image)
       (error "failed to load" filename image)
       (debug filename "loaded:" image))
