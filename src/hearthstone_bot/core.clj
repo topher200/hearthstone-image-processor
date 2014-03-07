@@ -9,7 +9,7 @@
   []
   (let [game-image (load-image (fs/path-to-resource "croc_board.png"))
         card-image (crop-image (load-image (fs/path-to-resource "croc_card.png")))
-        save-path (fs/path-to-resource "match.png")]
+        save-path (fs/path-to-resource "res" "match.png")]
     (draw-rectangle
      game-image 
      (cv/find-match-location (cv/template-match game-image card-image))
@@ -39,4 +39,6 @@
     (info "checking for" card-image-name "on" board-image-name)
     ;; (cv/draw-rectangle board-to-draw match-location template-size)
     (cv/save-image board-to-draw save-path)))
+
 (find-and-draw-croc-match)
+;; (-main)

@@ -1,4 +1,7 @@
 (ns hearthstone-bot.opencv
+  (:require
+   [hearthstone-bot.file-system :as fs]
+   )
   (:use [clojure.tools.logging :only (debug info warn error spy)])
   (:import
    org.opencv.core.Core
@@ -36,8 +39,10 @@
              border-width (- (.cols image) border-width))))
 
 (defn save-image
-  [image path]
-  (Highgui/imwrite path image))
+  [image file-path]
+  (fs/make-dirs file-path)
+  (if-not (Highgui/imwrite file-path image)
+    (warn "Unable to save image to" file-path)))
 
 (defn create-template-result-mat
   [image template]

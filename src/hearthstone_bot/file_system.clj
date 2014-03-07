@@ -18,3 +18,8 @@ filename, and the rest are dirs leading up to it."
      (clojure.string/join "/" [resources-directory filename]))
   ([dirname & more]
      (path-to-resource (clojure.string/join "/" (concat [dirname] more)))))
+
+(defn make-dirs
+  [file-path]
+  (clojure.java.io/make-parents file-path))
+  
