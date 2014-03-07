@@ -3,7 +3,13 @@
    [hearthstone-bot.file-system :as fs]
    [hearthstone-bot.opencv :as cv]
    )
-  (:use [clojure.tools.logging :only (debug info warn error spy)]))
+  (:use
+   [clojure.tools.logging :only (debug info warn error spy)]
+
+   ;; for REPL use
+   [clojure.pprint :only [pprint]]
+   [clojure.reflect :only [reflect]]
+   ))
 
 (defn find-and-draw-match
   [card-path]
