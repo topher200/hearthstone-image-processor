@@ -14,12 +14,12 @@
 (defn find-and-draw-match
   [card-path]
   (let [
-        game-image (load-image (fs/path-to-resource "croc_board.png"))
-        card-image (crop-image (load-image (.toString card-path)))
+        game-image (cv/load-image (fs/path-to-resource "croc_board.png"))
+        card-image (cv/crop-image (cv/load-image (.toString card-path)))
         save-path (fs/path-to-resource "res" (.getName card-path))
         ]
     (info "running" (.getName card-path))
-    (draw-rectangle
+    (cv/draw-rectangle
      game-image 
      (cv/find-match-location (cv/template-match game-image card-image))
      (.size card-image))
