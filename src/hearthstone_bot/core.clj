@@ -32,4 +32,8 @@
   []
   (map find-and-draw-match all-cards))
 
-(find-and-draw-all-matches)
+(defn -main
+  []
+  (find-and-draw-all-matches))
+
+(-main)
