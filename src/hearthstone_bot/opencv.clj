@@ -74,14 +74,14 @@
     dest))
 
 (defn find-match-location
-  "Our algorithm requires us to find the max location for our match"
+  "Our algorithm tells us to find the max location to get our match"
   [image]
-  (let [location (.maxLoc (Core/minMaxLoc image))]
-  ;; (let [location (.minLoc (Core/minMaxLoc image))]
-    (info "match maxVal:" (.maxVal (Core/minMaxLoc image)))
-    (info "match minVal:" (.minVal (Core/minMaxLoc image)))
-    (debug "match location:" location)
-    location))
+  (.maxLoc (Core/minMaxLoc image)))
+
+(defn find-match-score
+  "Like find-match-location, algorithm specifies max is best"
+  [image]
+  (.maxVal (Core/minMaxLoc image)))
 
 (defn bounding-rectangle-opposite-vertex
   [match-location template-size]

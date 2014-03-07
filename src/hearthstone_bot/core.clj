@@ -29,6 +29,17 @@
     (info "completed card in"
           (time/in-millis (time/interval start-time (time/now))) "ms")))
 
+(defn get-match-score
+  [card-path]
+  (let [start-time (time/now)
+        game-image (cv/load-image (fs/path-to-resource "croc_board.png"))
+        card-image (cv/crop-image (cv/load-image (.toString card-path)))
+        score (cv/find-match-score (cv/template-match game-image card-image))]
+      (info (.getName card-path) "score" score)
+      (info "completed card in"
+            (time/in-millis (time/interval start-time (time/now))) "ms")
+      score))
+
 (def all-cards (fs/get-all-files fs/cards-directory))
 
 (defn find-and-draw-all-matches
@@ -39,7 +50,7 @@
   [& args]
   (error "---starting---")
   (let [start-time (time/now)]
-    (doall (find-and-draw-all-matches))
+    (info (sort-by get-match-score > all-cards))
     (info "exiting after"
           (time/in-seconds (time/interval start-time (time/now))) "."
           (time/in-millis (time/interval start-time (time/now))) "secs")))
