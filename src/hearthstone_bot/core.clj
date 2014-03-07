@@ -32,7 +32,7 @@
 (defn get-match-score
   [card-path]
   (let [start-time (time/now)
-        game-image (cv/load-image (fs/path-to-resource "croc_board.png"))
+        game-image (cv/load-image (fs/path-to-resource "boar_board.png"))
         card-image (cv/crop-image (cv/load-image (.toString card-path)))
         score (cv/find-match-score (cv/template-match game-image card-image))]
       (info (.getName card-path) "score" score)
@@ -50,7 +50,7 @@
   [& args]
   (error "---starting---")
   (let [start-time (time/now)]
-    (info (sort-by get-match-score > all-cards))
+    (info "winner!" (first (sort-by get-match-score > all-cards)))
     (info "exiting after"
           (time/in-seconds (time/interval start-time (time/now))) "."
           (time/in-millis (time/interval start-time (time/now))) "secs")))
