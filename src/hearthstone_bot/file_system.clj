@@ -3,7 +3,7 @@
 (def root-dir "c:/dev/hearthstone-image-processor")
 (def resources-directory (clojure.string/join "/" [root-dir "resources"]))
 (def cards-directory
-  (clojure.string/join "/" [resources-directory, "even-less-cards"]))
+  (clojure.string/join "/" [resources-directory, "some-card-images"]))
 
 (defn get-all-files
   [directory]

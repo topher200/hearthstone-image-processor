@@ -15,9 +15,9 @@
 (defn draw-board
   []
   (cv/save-image
-   (cv/crop-board-image (cv/load-image (fs/path-to-resource "full_board_owl.png")))
+   (cv/crop-board-image (cv/load-image (fs/path-to-resource "croc_board.png")))
    (fs/path-to-resource "cropped_board.png")))
-;; (draw-board)
+(draw-board)
 
   
 (defn find-and-draw-match

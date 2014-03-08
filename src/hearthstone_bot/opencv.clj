@@ -40,8 +40,8 @@
 
 (defn crop-board-image
   [image]
-  (.submat image 385 741 511 1299))
-  ;; (.submat image 511 1000 385 500))
+  (.submat image 385 741 915 1164))
+  ;; (.submat image 385 741 511 1299))
 
 (defn save-image
   [image file-path]
