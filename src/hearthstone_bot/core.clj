@@ -12,11 +12,20 @@
    [clojure.reflect :only [reflect]]
    ))
 
+(defn draw-board
+  []
+  (cv/save-image
+   (cv/crop-board-image (cv/load-image (fs/path-to-resource "full_board_owl.png")))
+   (fs/path-to-resource "cropped_board.png")))
+;; (draw-board)
+
+  
 (defn find-and-draw-match
   [card-path]
   (let [
         start-time (time/now)
-        game-image (cv/load-image (fs/path-to-resource "croc_board.png"))
+        game-image (cv/crop-board-image
+                    (cv/load-image (fs/path-to-resource "croc_board.png")))
         card-image (cv/crop-card-image (cv/load-image (.toString card-path)))
         save-path (fs/path-to-resource "res" (fs/get-card-name card-path))
         ]
@@ -32,7 +41,8 @@
 (defn get-match-score
   [card-path]
   (let [start-time (time/now)
-        game-image (cv/load-image (fs/path-to-resource "boar_board.png"))
+        game-image (cv/crop-board-image
+                    (cv/load-image (fs/path-to-resource "croc_board.png")))
         card-image (cv/crop-image (cv/load-image (.toString card-path)))
         score (cv/find-match-score (cv/template-match game-image card-image))]
       (info (fs/get-card-name card-path) "score" score)
