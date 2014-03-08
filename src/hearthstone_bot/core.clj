@@ -38,23 +38,12 @@
     (info "completed card in"
           (time/in-millis (time/interval start-time (time/now))) "ms")))
 
-(defn board-image-memo
-  [board-image-path]
-  (cv/crop-board-image (cv/load-image board-image-path)))
-
-(defn card-image-memo
-  [card-image-path]
-  (cv/crop-card-image (cv/load-image card-image-path)))
-
-(defn load-card-images
-  [cards]
-  (doall (map card-image-memo cards)))
-
 (defn get-match-score
   [card-path]
   (let [start-time (time/now)
-        game-image (board-image-memo (fs/path-to-resource "croc_board.png"))
-        card-image (card-image-memo card-path)
+        game-image (cv/crop-board-image
+                    (cv/load-image (fs/path-to-resource "croc_board.png")))
+        card-image (cv/crop-image (cv/load-image (.toString card-path)))
         score (cv/find-match-score (cv/template-match game-image card-image))]
       (info (fs/get-card-name card-path) "score" score)
       (info "completed card in"
@@ -76,9 +65,6 @@
   [& args]
   (error "---starting---")
   (let [start-time (time/now)]
-    (info "loading images")
-    (load-card-images all-cards)
-    (info "running matching")
     (get-best-match-score)
     (info "exiting after"
           (time/in-seconds (time/interval start-time (time/now))) "."
