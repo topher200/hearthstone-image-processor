@@ -56,11 +56,16 @@
   []
   (map find-and-draw-match all-cards))
 
+(defn get-best-match-score
+  []
+  (info "winner!" (fs/get-card-name
+                   (first (sort-by (memoize get-match-score) > all-cards)))))
+
 (defn -main
   [& args]
   (error "---starting---")
   (let [start-time (time/now)]
-    (info "winner!" (fs/get-card-name (first (sort-by (memoize get-match-score) > all-cards))))
+    (get-best-match-score)
     (info "exiting after"
           (time/in-seconds (time/interval start-time (time/now))) "."
           (time/in-millis (time/interval start-time (time/now))) "secs")))
