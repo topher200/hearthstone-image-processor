@@ -17,6 +17,12 @@
   [image]
  (Mat. (.rows image) (.cols image) (.type image)))
 
+(defn gray-image
+  [image]
+  (let [dest (create-empty-clone image)]
+    (Imgproc/cvtColor image dest Imgproc/COLOR_BGR2GRAY)
+    dest))
+
 (defn load-image
   [filename]
   (let [image (Highgui/imread (.toString filename))]
@@ -24,12 +30,6 @@
       (error "failed to load" filename image)
       (debug filename "loaded:" image))
     (gray-image image)))
-
-(defn gray-image
-  [image]
-  (let [dest (create-empty-clone image)]
-    (Imgproc/cvtColor image dest Imgproc/COLOR_BGR2GRAY)
-    dest))
 
 (defn crop-image
   [image]
