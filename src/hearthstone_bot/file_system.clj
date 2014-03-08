@@ -23,3 +23,6 @@ filename, and the rest are dirs leading up to it."
   [file-path]
   (clojure.java.io/make-parents file-path))
   
+(defn get-card-name
+  [card-image-path]
+  (.getName card-image-path))

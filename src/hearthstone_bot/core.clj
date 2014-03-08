@@ -18,9 +18,9 @@
         start-time (time/now)
         game-image (cv/load-image (fs/path-to-resource "croc_board.png"))
         card-image (cv/crop-image (cv/load-image (.toString card-path)))
-        save-path (fs/path-to-resource "res" (.getName card-path))
+        save-path (fs/path-to-resource "res" (fs/get-card-name card-path))
         ]
-    (info "running" (.getName card-path))
+    (info "running" (fs/get-card-name card-path))
     (cv/draw-rectangle
      game-image 
      (cv/find-match-location (cv/template-match game-image card-image))
@@ -35,7 +35,7 @@
         game-image (cv/load-image (fs/path-to-resource "boar_board.png"))
         card-image (cv/crop-image (cv/load-image (.toString card-path)))
         score (cv/find-match-score (cv/template-match game-image card-image))]
-      (info (.getName card-path) "score" score)
+      (info (fs/get-card-name card-path) "score" score)
       (info "completed card in"
             (time/in-millis (time/interval start-time (time/now))) "ms")
       score))
