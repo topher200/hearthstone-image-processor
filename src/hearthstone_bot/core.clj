@@ -17,7 +17,7 @@
   (let [
         start-time (time/now)
         game-image (cv/load-image (fs/path-to-resource "croc_board.png"))
-        card-image (cv/crop-image (cv/load-image (.toString card-path)))
+        card-image (cv/crop-card-image (cv/load-image (.toString card-path)))
         save-path (fs/path-to-resource "res" (fs/get-card-name card-path))
         ]
     (info "running" (fs/get-card-name card-path))

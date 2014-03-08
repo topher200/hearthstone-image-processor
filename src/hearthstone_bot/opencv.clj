@@ -31,7 +31,7 @@
       (debug filename "loaded:" image))
     (gray-image image)))
 
-(defn crop-image
+(defn crop-card-image
   [image]
   (let [border-width 30]
     (.submat image
