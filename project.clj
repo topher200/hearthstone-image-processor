@@ -11,6 +11,7 @@
                  [org.slf4j/slf4j-log4j12 "1.7.6"]
                  [opencv/opencv "2.4.8"]
                  [opencv/opencv-native "2.4.8"]
+                 [com.taoensso/timbre "3.1.2"]
                  ]
   :injections
   [(clojure.lang.RT/loadLibrary org.opencv.core.Core/NATIVE_LIBRARY_NAME)]
