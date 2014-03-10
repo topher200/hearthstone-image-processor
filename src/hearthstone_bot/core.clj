@@ -2,6 +2,7 @@
   (:require
    [hearthstone-bot.file-system :as fs]
    [hearthstone-bot.opencv :as cv]
+   [taoensso.timbre :as timbre]
    [clj-time.core :as time]
    )
   (:use
@@ -11,6 +12,7 @@
    [clojure.pprint :only [pprint]]
    [clojure.reflect :only [reflect]]
    ))
+(timbre/refer-timbre)
 
 (defn draw-board
   []
