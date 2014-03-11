@@ -1,8 +1,8 @@
 (ns hearthstone-bot.opencv
   (:require
    [hearthstone-bot.file-system :as fs]
+   [taoensso.timbre :as timbre]
    )
-  (:use [clojure.tools.logging :only (debug info warn error spy)])
   (:import
    org.opencv.core.Core
    org.opencv.core.Mat
@@ -11,6 +11,7 @@
    org.opencv.imgproc.Imgproc
    org.opencv.highgui.Highgui
    ))
+(timbre/refer-timbre)
 
 (defn create-empty-clone
   "Creates an empty Mat the same size and type as the inputted one"

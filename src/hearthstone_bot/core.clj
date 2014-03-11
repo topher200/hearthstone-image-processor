@@ -6,8 +6,6 @@
    [clj-time.core :as time]
    )
   (:use
-   [clojure.tools.logging :only (debug info warn error spy)]
-
    ;; for REPL use
    [clojure.pprint :only [pprint]]
    [clojure.reflect :only [reflect]]
