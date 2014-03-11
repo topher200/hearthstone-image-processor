@@ -43,7 +43,7 @@
   (let [start-time (time/now)
         game-image (cv/crop-board-image
                     (cv/load-image (fs/path-to-resource "croc_board.png")))
-        card-image (cv/crop-image (cv/load-image (.toString card-path)))
+        card-image (cv/crop-card-image (cv/load-image (.toString card-path)))
         score (cv/find-match-score (cv/template-match game-image card-image))]
       (info (fs/get-card-name card-path) "score" score)
       (info "completed card in"
