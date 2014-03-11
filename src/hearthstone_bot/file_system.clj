@@ -1,6 +1,6 @@
 (ns hearthstone-bot.file-system)
 
-(def root-dir "c:/dev/hearthstone-image-processor")
+(def root-dir "d:/dev/clojure/hearthstone-image-processor")
 (def resources-directory (clojure.string/join "/" [root-dir "resources"]))
 (def cards-directory
   (clojure.string/join "/" [resources-directory, "some-card-images"]))
