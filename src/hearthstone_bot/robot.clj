@@ -5,16 +5,21 @@
   (:import
    java.awt.Rectangle
    java.awt.Robot
+   java.awt.Toolkit
    java.nio.ByteBuffer
    org.opencv.core.CvType
    org.opencv.core.Mat
    ))
 (timbre/refer-timbre)
 
+(defn get-screen-dimension
+  []
+  (Rectangle. (.getScreenSize (Toolkit/getDefaultToolkit))))
+
 (defn get-screenshot-buffered-image
   ;; Returns a BufferedImage, which is cool in Java-land but isn't with opencv
   []
-  (.createScreenCapture (Robot.) (Rectangle. 1900 1200)))
+  (.createScreenCapture (Robot.) (get-screen-dimension)))
 
 (defn buffered-image-to-mat
   ;; from http://stackoverflow.com/a/21175472
