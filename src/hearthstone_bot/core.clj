@@ -17,9 +17,7 @@
   (cv/save-image
    (cv/crop-board-image (cv/load-image (fs/path-to-resource "croc_board.png")))
    (fs/path-to-resource "cropped_board.png")))
-(draw-board)
 
-  
 (defn find-and-draw-match
   [card-path]
   (let [
