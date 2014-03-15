@@ -12,6 +12,11 @@
    [clojure.reflect :only [reflect]]
    ))
 (timbre/refer-timbre)
+(timbre/set-config! [:level] :debug)
+(timbre/set-config! [:appenders :spit :enabled?] true)
+(timbre/set-config! [:shared-appender-config :spit-filename]
+                    "d:/log/hearthstone-image-processor.log")
+(error "starting core.clj")
 
 (defn draw-board
   []
