@@ -68,8 +68,8 @@
 
 (defn save-screenshot
   []
-  (cv/save-image (robot/buffered-image-to-mat
-                  (robot/get-screenshot-buffered-image))
+  (cv/save-image (cv/gray-image (robot/buffered-image-to-mat
+                  (robot/get-screenshot-buffered-image)))
                  (fs/path-to-resource "temp.png")))
 (draw-screenshot)
 
