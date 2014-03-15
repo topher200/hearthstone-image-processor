@@ -23,6 +23,7 @@
 
 (defn buffered-image-to-mat
   ;; from http://stackoverflow.com/a/21175472
+  ;; Currently returns a very purple image. Not sure why.
   [buffered-image]
   (let [image-data (.getData (.getDataBuffer (.getRaster buffered-image)))
         ;; using image-array.size() instead of image-array.length because I
