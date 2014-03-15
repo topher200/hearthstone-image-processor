@@ -14,7 +14,7 @@
 (defn get-screenshot-buffered-image
   ;; Returns a BufferedImage, which is cool in Java-land but isn't with opencv
   []
-  (.createScreenCapture (Robot.) (Rectangle. 1000 1000)))
+  (.createScreenCapture (Robot.) (Rectangle. 1900 1200)))
 
 (defn buffered-image-to-mat
   ;; from http://stackoverflow.com/a/21175472
