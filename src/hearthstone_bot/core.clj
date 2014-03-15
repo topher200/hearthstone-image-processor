@@ -2,6 +2,7 @@
   (:require
    [hearthstone-bot.file-system :as fs]
    [hearthstone-bot.opencv :as cv]
+   [hearthstone-bot.robot :as robot]
    [taoensso.timbre :as timbre]
    [clj-time.core :as time]
    )
@@ -60,6 +61,13 @@
   (info "winner!" (fs/get-card-name
                    (first (sort-by (memoize get-match-score) > all-cards)))))
 
+(defn save-screenshot
+  []
+  (cv/save-image (robot/buffered-image-to-mat
+                  (robot/get-screenshot-buffered-image))
+                 (fs/path-to-resource "temp.png")))
+(draw-screenshot)
+
 (defn -main
   [& args]
   (error "---starting---")
@@ -68,4 +76,3 @@
     (info "exiting after"
           (time/in-seconds (time/interval start-time (time/now))) "."
           (time/in-millis (time/interval start-time (time/now))) "secs")))
-(-main)
