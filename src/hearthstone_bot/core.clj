@@ -56,6 +56,7 @@
 
 (defn get-best-match-score
   []
+  ;; memoize is eating up memory. need to sort without using that
   (info "winner!" (fs/get-card-name
                    (first (sort-by (memoize get-match-score) > all-cards)))))
 
@@ -67,5 +68,4 @@
     (info "exiting after"
           (time/in-seconds (time/interval start-time (time/now))) "."
           (time/in-millis (time/interval start-time (time/now))) "secs")))
-
 (-main)
