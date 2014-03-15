@@ -1,5 +1,6 @@
 (ns hearthstone-bot.robot
   (:require
+   [hearthstone-bot.opencv :as cv]
    [taoensso.timbre :as timbre]
    )
   (:import
@@ -23,7 +24,7 @@
 
 (defn buffered-image-to-mat
   ;; from http://stackoverflow.com/a/21175472
-  ;; Currently returns a very purple image. Not sure why.
+  ;; Currently returns a very purple image, so we're converting it to gray.
   [buffered-image]
   (let [image-data (.getData (.getDataBuffer (.getRaster buffered-image)))
         ;; using image-array.size() instead of image-array.length because I
@@ -35,6 +36,6 @@
                          CvType/CV_8UC4)]
     (.put int-buffer image-data)
     (.put result-mat 0 0 (.array byte-buffer))
-    result-mat))
+    (cv/gray-image result-mat)))
 
 (buffered-image-to-mat (get-screenshot-buffered-image))
