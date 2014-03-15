@@ -26,7 +26,7 @@
         ;; int-buffer is a view of byte-buffer. we pack data into it
         int-buffer (.asIntBuffer byte-buffer)
         result-mat (Mat. (.getHeight buffered-image) (.getWidth buffered-image)
-                         CvType/CV_8UC1)]
+                         CvType/CV_8UC4)]
     (.put int-buffer image-data)
     (.put result-mat 0 0 (.array byte-buffer))
     result-mat))
