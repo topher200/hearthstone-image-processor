@@ -62,16 +62,16 @@
 
 (defn get-best-match-score
   []
-  ;; memoize is eating up memory. need to sort without using that
-  (info "winner!" (fs/get-card-name
-                   (first (sort-by (memoize get-match-score) > all-cards)))))
+  (key (apply max-key val (reduce (fn [hash-map card-path]
+            (assoc hash-map card-path (get-match-score card-path)))
+          {} all-cards))))
+(warn "matching card:" (get-best-match-score))
 
 (defn save-screenshot
   []
   (cv/save-image (cv/gray-image (robot/buffered-image-to-mat
                   (robot/get-screenshot-buffered-image)))
                  (fs/path-to-resource "temp.png")))
-(draw-screenshot)
 
 (defn -main
   [& args]
