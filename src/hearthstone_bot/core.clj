@@ -68,10 +68,11 @@
 (warn "matching card:" (get-best-match-score))
 
 (defn save-screenshot
-  []
+  [filename]
   (cv/save-image (cv/gray-image (robot/buffered-image-to-mat
-                  (robot/get-screenshot-buffered-image)))
-                 (fs/path-to-resource "temp.png")))
+                                 (robot/get-screenshot-buffered-image)))
+                 filename))
+(save-screenshot (fs/path-to-resource "temp.png"))
 
 (defn -main
   [& args]
