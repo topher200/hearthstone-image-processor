@@ -39,3 +39,8 @@
     (cv/gray-image result-mat)))
 
 (buffered-image-to-mat (get-screenshot-buffered-image))
+
+(defn move-mouse-to-point
+  []
+  (.mouseMove (Robot.) 100 100))
+(move-mouse-to-point)
